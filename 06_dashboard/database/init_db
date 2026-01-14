@@ -1,0 +1,46 @@
+import sqlite3
+from werkzeug.security import generate_password_hash
+
+def init_db():
+    conn = sqlite3.connect("database/users.db")
+    cursor = conn.cursor()
+
+    # Create users table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
+
+    # Create threats table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS threats (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp TEXT NOT NULL,
+            attack_name TEXT NOT NULL,
+            severity INTEGER NOT NULL
+        )
+    ''')
+
+    # Add default users with hashed passwords
+    users = [
+        ("admin", generate_password_hash("admin123")),
+        ("user1", generate_password_hash("password1")),
+        ("user2", generate_password_hash("password2")),
+    ]
+    
+    for username, hashed_password in users:
+        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+        if not cursor.fetchone():
+            cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", 
+                           (username, hashed_password))
+
+    conn.commit()
+    conn.close()
+
+# Run database initialization
+if __name__ == "__main__":
+    init_db()
+    print("Database initialized successfully!")

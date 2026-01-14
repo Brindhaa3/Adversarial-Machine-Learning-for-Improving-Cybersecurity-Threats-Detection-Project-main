@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./04_",
+        "./04_"
+    ]
+}

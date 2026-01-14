@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+</head>
+<body>
+    <h2>Welcome, {{ username }}</h2>
+    <h3>Live Threat Updates</h3>
+    <div id="live_updates"></div>
+    
+    <script>
+        var socket = io.connect();
+        socket.on("live_update", function(data) {
+            var updatesDiv = document.getElementById("live_updates");
+            updatesDiv.innerHTML += `<p>${data.timestamp} - ${data.attack_type} (${data.threat_level})</p>`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+
+flask
+pandas
+scikit-learn
+tensorflow
+joblib
+matplotlib
+seaborn
+numpy
+websockets
+
+

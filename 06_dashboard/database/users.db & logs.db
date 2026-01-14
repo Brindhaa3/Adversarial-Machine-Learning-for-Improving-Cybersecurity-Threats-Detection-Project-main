@@ -1,0 +1,15 @@
+import sqlite3
+
+# Create Users Database
+conn = sqlite3.connect('database/users.db')
+cursor = conn.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)''')
+conn.commit()
+conn.close()
+
+# Create Logs Database
+conn = sqlite3.connect('database/logs.db')
+cursor = conn.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS attack_logs (timestamp TEXT, attack_type TEXT, severity TEXT)''')
+conn.commit()
+conn.close()
